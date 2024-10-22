@@ -4,6 +4,7 @@
 #include "UnrealPracticeCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
+
 AUnrealPracticeGameMode::AUnrealPracticeGameMode()
 	: Super()
 {
@@ -12,3 +13,4 @@ AUnrealPracticeGameMode::AUnrealPracticeGameMode()
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 }
+

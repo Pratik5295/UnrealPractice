@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "UnrealPracticeGameMode.generated.h"
 
+
 UCLASS(minimalapi)
 class AUnrealPracticeGameMode : public AGameModeBase
 {
