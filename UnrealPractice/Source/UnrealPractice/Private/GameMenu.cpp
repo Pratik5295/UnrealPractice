@@ -30,7 +30,6 @@ void UGameMenu::OnStartClicked()
 
 void UGameMenu::OnQuitClicked()
 {
-	UKismetSystemLibrary::QuitGame(this, nullptr, 
-		EQuitPreference::Quit, true);
+	UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit, true);
 }
 
