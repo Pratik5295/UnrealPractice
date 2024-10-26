@@ -1,5 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+#include "UnrealPracticeCharacter.h"
+
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -8,7 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "UnrealPracticeCharacter.h"
+
 #include "UnrealPracticeProjectile.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);

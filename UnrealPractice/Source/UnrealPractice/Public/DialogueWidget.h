@@ -29,7 +29,12 @@ public:
 	FDialogueNode CurrentNode;
 
 	void SetCurrentNode(const FDialogueNode& NewDialogueNode);
-	
+
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+	void SetSpeakerText(const FString& Text);
+
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+	void SetMessageText(const FString& Text);
 
 protected:
 
@@ -38,11 +43,6 @@ protected:
 private:
 
 
-	UFUNCTION(BlueprintCallable, Category = "Dialogue")
-	void SetSpeakerText(const FString& Text);
-
-	UFUNCTION(BlueprintCallable, Category = "Dialogue")
-	void SetMessageText(const FString& Text);
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void OnNextButtonClicked();

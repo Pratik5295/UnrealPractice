@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "FDialogueNode.h"
+#include "DialogueWidget.h"
 #include "GameFramework/Actor.h"
+#include "DialogueManager.h"
 #include "Dialogue.generated.h"
 
 UCLASS()
@@ -22,6 +24,11 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue")
 	TArray<FDialogueNode> DialogueMessages;
 
+	ADialogueManager* DialogueManagerInstance;
+
+	FTimerHandle TimerHandle;
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,5 +40,6 @@ public:
 
 private:
 	void DisplayCurrentMessage();
+	void FindDialogueManager();
 
 };

@@ -1,7 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Dialogue.h"
+#include "Kismet/GameplayStatics.h"
+#include "DialogueManager.h"
+#include "TimerManager.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "DialogueWidget.h"
+
 
 // Sets default values
 ADialogue::ADialogue()
@@ -17,7 +22,11 @@ void ADialogue::BeginPlay()
 {
 	Super::BeginPlay();
 
-	DisplayCurrentMessage();
+	//DisplayCurrentMessage();
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this,
+		&ADialogue::FindDialogueManager, 3.0f, false);
+
 	
 }
 
@@ -25,7 +34,6 @@ void ADialogue::BeginPlay()
 void ADialogue::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ADialogue::DisplayCurrentMessage() 
@@ -35,8 +43,26 @@ void ADialogue::DisplayCurrentMessage()
 	{
 		const FDialogueNode& Node = DialogueMessages[currentIndex];
 
-		UE_LOG(LogTemp, Log, TEXT("Speaker: %s"), *Node.SpeakerName);
-		UE_LOG(LogTemp, Log, TEXT("Message: %s"), *Node.Message);
+		/*UE_LOG(LogTemp, Log, TEXT("Speaker: %s"), *Node.SpeakerName);
+		UE_LOG(LogTemp, Log, TEXT("Message: %s"), *Node.Message);*/
+
+	}
+}
+
+void ADialogue::FindDialogueManager()
+{
+	DialogueManagerInstance = Cast<ADialogueManager>
+		(UGameplayStatics::GetActorOfClass(GetWorld(), ADialogueManager::StaticClass()));
+
+	if (DialogueManagerInstance)
+	{
+		UE_LOG(LogTemp, Log, TEXT("DialogueManager found!"));
+		const FDialogueNode& Node = DialogueMessages[currentIndex];
+		DialogueManagerInstance->PassDialogueData(Node);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DialogueManager not found!"));
 	}
 }
 
