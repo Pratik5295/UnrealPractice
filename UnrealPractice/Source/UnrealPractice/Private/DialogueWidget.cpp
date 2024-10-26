@@ -26,27 +26,15 @@ void UDialogueWidget::OnNextButtonClicked()
 	UE_LOG(LogTemp, Log, TEXT("Next button was clicked! Show next message"));
 }
 
+void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
+{
+	CurrentNode = NewDialogueNode;
+}
+
 void UDialogueWidget::NativeConstruct() 
 {
 	Super::NativeConstruct();
 
-	if (SpeakerNameValue.IsEmpty())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Speaker Name text value is empty, failed to update UI"));
-	}
-	else
-	{
-		SetSpeakerText(SpeakerNameValue);
-	}
-
-	if (MessageContent.IsEmpty())
-	{
-		UE_LOG(LogTemp, Error, TEXT("Dialogue Message can not be empty!"));
-	}
-	else
-	{
-		SetMessageText(MessageContent);
-	}
 
 	if (NextButton)
 	{
@@ -55,6 +43,17 @@ void UDialogueWidget::NativeConstruct()
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Next button does not exist"));
+	}
+
+	//Check if struct has meaningful values
+	if (!CurrentNode.IsEmpty())
+	{
+		SetSpeakerText(CurrentNode.SpeakerName);
+		SetMessageText(CurrentNode.Message);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Struct of dialogue node is empty"));
 	}
 }
 
