@@ -3,6 +3,7 @@
 
 #include "DialogueManager.h"
 #include "TimerManager.h"
+#include "Dialogue.h"
 
 
 // Sets default values
@@ -10,6 +11,9 @@ ADialogueManager::ADialogueManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	activeDialogue = nullptr;
+	hud = nullptr;
 
 }
 
@@ -42,6 +46,19 @@ void ADialogueManager::GetCurrentHUD()
 		{
 			UE_LOG(LogTemp, Log, TEXT("HUD found!"));
 		}
+	}
+}
+
+void ADialogueManager::SetActiveDialogue(ADialogue* Dialogue)
+{
+	activeDialogue = Dialogue;
+}
+
+void ADialogueManager::ShowNextMessage()
+{
+	if (activeDialogue)
+	{
+		activeDialogue->ShowNextMessage();
 	}
 }
 

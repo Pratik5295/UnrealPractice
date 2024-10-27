@@ -4,9 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "GameFramework/PlayerController.h"
+#include "FDialogueNode.h"
 #include "GameHUD.h"
+#include "GameFramework/PlayerController.h"
 #include "DialogueManager.generated.h"
+
+// Forward declare the classes
+class ADialogue;
 
 UCLASS()
 class UNREALPRACTICE_API ADialogueManager : public AActor
@@ -22,6 +26,11 @@ public:
 	APlayerController* PlayerController;
 	AGameHUD* hud;
 
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Dialogue")
+	ADialogue* activeDialogue;
+
+	FTimerHandle TimerHandle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,6 +43,9 @@ public:
 
 	void PassDialogueData(const FDialogueNode& DialogueNode);
 
-	FTimerHandle TimerHandle;
+	void SetActiveDialogue(ADialogue* Dialogue);
+
+	UFUNCTION(BlueprintCallable,Category = "Dialgoue")
+	void ShowNextMessage();
 
 };

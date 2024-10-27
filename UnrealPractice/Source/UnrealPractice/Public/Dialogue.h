@@ -6,8 +6,10 @@
 #include "FDialogueNode.h"
 #include "DialogueWidget.h"
 #include "GameFramework/Actor.h"
-#include "DialogueManager.h"
 #include "Dialogue.generated.h"
+
+//Forward declare the classes
+class ADialogueManager;
 
 UCLASS()
 class UNREALPRACTICE_API ADialogue : public AActor
@@ -36,6 +38,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ShowNextMessage();
+
+	void StartDialogue();
 
 
 private:

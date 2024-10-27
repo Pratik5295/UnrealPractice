@@ -15,6 +15,8 @@ ADialogue::ADialogue()
 	PrimaryActorTick.bCanEverTick = true;
 	currentIndex = 0;
 
+	DialogueManagerInstance = nullptr;
+
 }
 
 // Called when the game starts or when spawned
@@ -36,16 +38,38 @@ void ADialogue::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ADialogue::StartDialogue()
+{
+	currentIndex = 0;
+
+	if (DialogueManagerInstance)
+	{
+		DialogueManagerInstance->SetActiveDialogue(this);
+	}
+
+	DisplayCurrentMessage();
+}
+
+void ADialogue::ShowNextMessage()
+{
+	currentIndex++;
+
+	DisplayCurrentMessage();
+}
+
+
 void ADialogue::DisplayCurrentMessage() 
 {
 	//Check if the node value is valid
-	if (DialogueMessages.IsValidIndex(currentIndex))
+	if (DialogueMessages.IsValidIndex(currentIndex) && DialogueManagerInstance)
 	{
 		const FDialogueNode& Node = DialogueMessages[currentIndex];
+		DialogueManagerInstance->PassDialogueData(Node);
 
-		/*UE_LOG(LogTemp, Log, TEXT("Speaker: %s"), *Node.SpeakerName);
-		UE_LOG(LogTemp, Log, TEXT("Message: %s"), *Node.Message);*/
-
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Last message was shown!"));
 	}
 }
 
@@ -54,15 +78,14 @@ void ADialogue::FindDialogueManager()
 	DialogueManagerInstance = Cast<ADialogueManager>
 		(UGameplayStatics::GetActorOfClass(GetWorld(), ADialogueManager::StaticClass()));
 
-	if (DialogueManagerInstance)
-	{
-		UE_LOG(LogTemp, Log, TEXT("DialogueManager found!"));
-		const FDialogueNode& Node = DialogueMessages[currentIndex];
-		DialogueManagerInstance->PassDialogueData(Node);
-	}
-	else
+	if (!DialogueManagerInstance)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DialogueManager not found!"));
+	}
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DialogueManager found!"));
+		StartDialogue();
 	}
 }
 
