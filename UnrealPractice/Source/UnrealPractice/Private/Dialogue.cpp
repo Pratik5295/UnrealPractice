@@ -15,6 +15,8 @@ ADialogue::ADialogue()
 	PrimaryActorTick.bCanEverTick = true;
 	currentIndex = 0;
 
+	lastIndex = 0;
+
 	DialogueManagerInstance = nullptr;
 
 }
@@ -26,6 +28,8 @@ void ADialogue::BeginPlay()
 
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this,
 		&ADialogue::FindDialogueManager, 3.0f, false);
+
+	lastIndex = DialogueMessages.Num() - 1;
 
 	
 }
@@ -48,6 +52,7 @@ void ADialogue::StartDialogue()
 	DisplayCurrentMessage();
 }
 
+#pragma region SHOW MESSAGE
 void ADialogue::ShowNextMessage()
 {
 	currentIndex++;
@@ -67,9 +72,16 @@ void ADialogue::DisplayCurrentMessage()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Last message was shown!"));
+		//UE_LOG(LogTemp, Warning, TEXT("Last message was shown!"));
 	}
 }
+
+bool ADialogue::IsLastMessageShown()
+{
+	return currentIndex >= lastIndex;
+}
+
+#pragma endregion
 
 void ADialogue::FindDialogueManager()
 {
@@ -83,6 +95,9 @@ void ADialogue::FindDialogueManager()
 	else 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DialogueManager found!"));
+
+		//Temporarily starting the dialogue as soon as its found,
+		//This will later be covered through another trigger element like NPC or box trigger
 		StartDialogue();
 	}
 }

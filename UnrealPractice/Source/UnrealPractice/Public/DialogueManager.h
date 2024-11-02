@@ -51,4 +51,7 @@ public:
 	UFUNCTION(BlueprintCallable,Category = "Dialogue")
 	void ShowDialogHUD();
 
+	UFUNCTION(BlueprintCallable,Category = "Dialogue")
+	void ResetDialogHUD();
+
 };

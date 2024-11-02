@@ -58,7 +58,17 @@ void ADialogueManager::ShowNextMessage()
 {
 	if (activeDialogue)
 	{
-		activeDialogue->ShowNextMessage();
+		if (activeDialogue->IsLastMessageShown())
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Not showing you anythign more!!"));
+		
+			//Hide the widget and set active dialogue to null
+			ResetDialogHUD();
+		}
+		else
+		{
+			activeDialogue->ShowNextMessage();
+		}
 	}
 }
 
@@ -73,9 +83,26 @@ void ADialogueManager::PassDialogueData(const FDialogueNode& DialogueNode)
 
 void ADialogueManager::ShowDialogHUD()
 {
-	if (hud)
+	if (hud && activeDialogue)
 	{
 		hud->ShowDialog();
 	}
+}
+
+void ADialogueManager::ResetDialogHUD()
+{
+	activeDialogue = nullptr;
+
+	if (hud)
+	{
+		hud->HideDialog();
+	}
+
+	if (activeDialogue)
+	{
+		activeDialogue = nullptr;
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Dialog HUD should be hidden?"));
 }
 
