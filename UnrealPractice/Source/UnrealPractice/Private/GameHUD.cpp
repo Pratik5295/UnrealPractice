@@ -14,5 +14,21 @@ void AGameHUD::BeginPlay()
 	{
 		DialogInstance->AddToViewport();
 		UE_LOG(LogTemp, Log, TEXT("Dialog widget has been created"));
+
+		HideDialog();
 	}
+}
+
+void AGameHUD::HideDialog() 
+{
+	if (!DialogInstance) return;
+
+	DialogInstance->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AGameHUD::ShowDialog() 
+{
+	if (!DialogInstance) return;
+
+	DialogInstance->SetVisibility(ESlateVisibility::Visible);
 }

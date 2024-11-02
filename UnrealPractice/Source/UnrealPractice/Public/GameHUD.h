@@ -25,5 +25,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite,Category = "Dialogue")
 	UDialogueWidget* DialogInstance;
+
+
+	void HideDialog();
+	void ShowDialog();
 	
 };

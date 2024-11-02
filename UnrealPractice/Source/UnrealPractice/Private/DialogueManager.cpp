@@ -71,3 +71,11 @@ void ADialogueManager::PassDialogueData(const FDialogueNode& DialogueNode)
 	}
 }
 
+void ADialogueManager::ShowDialogHUD()
+{
+	if (hud)
+	{
+		hud->ShowDialog();
+	}
+}
+

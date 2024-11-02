@@ -24,8 +24,6 @@ void ADialogue::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//DisplayCurrentMessage();
-
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this,
 		&ADialogue::FindDialogueManager, 3.0f, false);
 

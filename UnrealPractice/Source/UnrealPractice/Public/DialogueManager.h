@@ -48,4 +48,7 @@ public:
 	UFUNCTION(BlueprintCallable,Category = "Dialgoue")
 	void ShowNextMessage();
 
+	UFUNCTION(BlueprintCallable,Category = "Dialogue")
+	void ShowDialogHUD();
+
 };
