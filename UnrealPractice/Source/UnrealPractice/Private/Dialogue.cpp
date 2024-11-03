@@ -31,6 +31,11 @@ void ADialogue::BeginPlay()
 
 	lastIndex = DialogueMessages.Num() - 1;
 
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, TEXT("Begin play complete"));
+
+	FString message = DialogueMessages[0].Message;
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, message);
 	
 }
 
