@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "FDialogueNode.h"
 #include "Components/BoxComponent.h"
 #include "DialogueTrigger.generated.h"
+
 
 class ADialogue;
 
@@ -26,7 +28,7 @@ protected:
 	UBoxComponent* TriggerBox;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
-	UChildActorComponent* DialogueChildActorComponent;
+	TArray<FDialogueNode> DialogueMessages;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dialogue")
 	ADialogue* activeDialogue;

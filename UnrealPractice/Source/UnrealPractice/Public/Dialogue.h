@@ -20,13 +20,13 @@ public:
 	// Sets default values for this actor's properties
 	ADialogue();
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "Dialogue")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Dialogue")
 	int currentIndex;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Dialogue")
 	int lastIndex;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue", meta = (ExposeOnSpawn = "true"))
 	TArray<FDialogueNode> DialogueMessages;
 
 	ADialogueManager* DialogueManagerInstance;
@@ -47,6 +47,8 @@ public:
 	void StartDialogue();
 
 	bool IsLastMessageShown();
+
+	void SetupDialogueMessages(TArray<FDialogueNode> Messages);
 
 
 private:

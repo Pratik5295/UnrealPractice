@@ -2,6 +2,7 @@
 
 
 #include "DialogueTrigger.h"
+#include "Dialogue.h"
 
 // Sets default values
 ADialogueTrigger::ADialogueTrigger()
@@ -17,15 +18,48 @@ ADialogueTrigger::ADialogueTrigger()
 void ADialogueTrigger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FName DialogTag = TEXT("Dialogue");
+
+	UChildActorComponent* DialogueChildActor =
+		FindComponentByTag<UChildActorComponent>(DialogTag);
+
+	if (DialogueChildActor)
+	{
+		activeDialogue = Cast<ADialogue>(DialogueChildActor->GetChildActor());
+
+		if (activeDialogue)
+		{
+			if (DialogueMessages.Num() > 0) 
+			{
+				//If nothing is added in parent, then let it show the template dialogue messages
+				activeDialogue->SetupDialogueMessages(DialogueMessages);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("Child found & attached"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Child is not a dialogue"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Child not found"));
+	}
+
 }
 
 void ADialogueTrigger::OnTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor && OtherActor != this)  // Ensure the actor is valid and not self
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Overlap Begin with %s"), *OtherActor->GetName());
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Collided with something"));
+		if (activeDialogue && activeDialogue->currentIndex == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("New Conversation will be started now"));
+			//We start the dialogue
+			activeDialogue->StartDialogue();
+			UE_LOG(LogTemp, Warning, TEXT("Starting new convo"));
+		}
 	}
 }
 

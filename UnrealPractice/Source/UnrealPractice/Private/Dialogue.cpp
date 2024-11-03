@@ -30,12 +30,6 @@ void ADialogue::BeginPlay()
 		&ADialogue::FindDialogueManager, 3.0f, false);
 
 	lastIndex = DialogueMessages.Num() - 1;
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, TEXT("Begin play complete"));
-
-	FString message = DialogueMessages[0].Message;
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, message);
 	
 }
 
@@ -86,6 +80,13 @@ bool ADialogue::IsLastMessageShown()
 	return currentIndex >= lastIndex;
 }
 
+void ADialogue::SetupDialogueMessages(TArray<FDialogueNode> Messages)
+{
+	DialogueMessages = Messages;
+	currentIndex = 0;
+	lastIndex = DialogueMessages.Num() - 1;
+}
+
 #pragma endregion
 
 void ADialogue::FindDialogueManager()
@@ -103,7 +104,7 @@ void ADialogue::FindDialogueManager()
 
 		//Temporarily starting the dialogue as soon as its found,
 		//This will later be covered through another trigger element like NPC or box trigger
-		StartDialogue();
+		//StartDialogue();
 	}
 }
 

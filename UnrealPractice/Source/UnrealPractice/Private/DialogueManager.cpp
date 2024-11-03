@@ -52,6 +52,8 @@ void ADialogueManager::GetCurrentHUD()
 void ADialogueManager::SetActiveDialogue(ADialogue* Dialogue)
 {
 	activeDialogue = Dialogue;
+
+	ShowDialogHUD();
 }
 
 void ADialogueManager::ShowNextMessage()
