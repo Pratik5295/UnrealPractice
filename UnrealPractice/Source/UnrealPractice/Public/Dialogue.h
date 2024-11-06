@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FDialogueNode.h"
+#include "FDialogueOption.h"
 #include "DialogueWidget.h"
 #include "GameFramework/Actor.h"
 #include "Dialogue.generated.h"

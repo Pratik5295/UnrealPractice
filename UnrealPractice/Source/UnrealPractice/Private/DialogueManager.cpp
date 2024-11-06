@@ -78,8 +78,7 @@ void ADialogueManager::PassDialogueData(const FDialogueNode& DialogueNode)
 {
 	if (hud)
 	{
-		hud->DialogInstance->SetSpeakerText(*DialogueNode.SpeakerName);
-		hud->DialogInstance->SetMessageText(*DialogueNode.Message);
+		hud->DialogInstance->SetCurrentNode(DialogueNode);
 	}
 }
 

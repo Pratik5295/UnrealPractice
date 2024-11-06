@@ -29,6 +29,29 @@ void UDialogueWidget::OnNextButtonClicked()
 void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 {
 	CurrentNode = NewDialogueNode;
+
+	SetSpeakerText(CurrentNode.SpeakerName);
+	SetMessageText(CurrentNode.Message);
+
+	bool HasOptions = CurrentNode.HasOptions();
+
+	
+
+	if (!HasOptions)
+	{
+		for (UUIDialogOption* DialogButton : OptionButtons)
+		{
+			if (DialogButton)
+			{
+				DialogButton->Hide();
+
+			}
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Dialogue Options will be populated soon"));
+	}
 }
 
 void UDialogueWidget::NativeConstruct() 

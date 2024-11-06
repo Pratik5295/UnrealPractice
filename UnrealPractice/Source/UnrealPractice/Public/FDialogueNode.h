@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FDialogueOption.h"
 #include "FDialogueNode.generated.h"
+
 
 
 USTRUCT(BlueprintType)
@@ -19,6 +21,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	FString Message;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
+	TArray<FDialogueOption> Options;
+
 	FDialogueNode();
 	~FDialogueNode();
 
@@ -26,5 +31,11 @@ public:
 	bool IsEmpty() const
 	{
 		return SpeakerName.IsEmpty() && Message.IsEmpty();
+	}
+
+	//A Helper const function to check if the struct has options
+	bool HasOptions() const
+	{
+		return Options.Num() > 0;
 	}
 };

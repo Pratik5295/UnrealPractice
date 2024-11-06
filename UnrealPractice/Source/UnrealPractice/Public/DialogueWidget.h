@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "FDialogueNode.h"
+#include "UIDialogOption.h"
 #include "Blueprint/UserWidget.h"
 #include "DialogueWidget.generated.h"
 
@@ -22,6 +23,9 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* NextButton;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue")
+	TArray<UUIDialogOption*> OptionButtons;
 
 	//For now let the struct be in public, but will be moved  to private once
 	// the system is setup properly
