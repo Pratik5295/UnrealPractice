@@ -21,6 +21,11 @@ void UDialogueWidget::SetMessageText(const FString& Text)
 	}
 }
 
+void UDialogueWidget::SetupDialogOptions(UUIDialogOption* DialogOption)
+{
+	DialogOptionInstance = DialogOption;
+}
+
 void UDialogueWidget::OnNextButtonClicked()
 {
 	UE_LOG(LogTemp, Log, TEXT("Next button was clicked! Show next message"));
@@ -35,18 +40,17 @@ void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 
 	bool HasOptions = CurrentNode.HasOptions();
 
-	
+	if (DialogOptionInstance)
+	{
+		DialogOptionInstance->SetupOption("Batman wishes you the best", 3);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couuld not setup the Dialog Option Instance"));
+	}
 
 	if (!HasOptions)
 	{
-		for (UUIDialogOption* DialogButton : OptionButtons)
-		{
-			if (DialogButton)
-			{
-				DialogButton->Hide();
-
-			}
-		}
 	}
 	else
 	{

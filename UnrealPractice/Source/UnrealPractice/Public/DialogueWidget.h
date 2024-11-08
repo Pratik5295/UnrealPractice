@@ -24,13 +24,19 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* NextButton;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue")
-	TArray<UUIDialogOption*> OptionButtons;
+	UPROPERTY(meta = (BindWidget))
+	class UVerticalBox* OptionsContainer;
 
 	//For now let the struct be in public, but will be moved  to private once
 	// the system is setup properly
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
 	FDialogueNode CurrentNode;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Dialogue")
+	UUIDialogOption* DialogOptionInstance;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Dialogue")
+	TArray<UUIDialogOption*> DialogOptions;
 
 	void SetCurrentNode(const FDialogueNode& NewDialogueNode);
 
@@ -39,6 +45,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void SetMessageText(const FString& Text);
+
+	void SetupDialogOptions(UUIDialogOption* DialogOption);
 
 protected:
 

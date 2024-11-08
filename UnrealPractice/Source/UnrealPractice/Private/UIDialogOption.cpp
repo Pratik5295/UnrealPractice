@@ -1,8 +1,5 @@
-#include "UIDialogOption.h"
-#include "UIDialogOption.h"
+
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "UIDialogOption.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"

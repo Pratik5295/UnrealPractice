@@ -16,6 +16,27 @@ void AGameHUD::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("Dialog widget has been created"));
 
 		HideDialog();
+
+		OptionsContainer = DialogInstance->OptionsContainer;
+
+		if (OptionsContainer)
+		{
+			for (int i = 0; i < OptionsCount; i++)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Options container also exists"));
+
+				DialogOptionInstance = CreateWidget<UUIDialogOption>(GetWorld(), DialogOptionWidgetClass);
+
+				if (DialogOptionInstance)
+				{
+					OptionsContainer->AddChild(DialogOptionInstance);
+
+					DialogInstance->SetupDialogOptions(DialogOptionInstance);
+
+					DialogOptions.Add(DialogOptionInstance);
+				}
+			}
+		}
 	}
 }
 
