@@ -44,7 +44,7 @@ protected:
 
 	const int32 OptionsCount = 3;
 
-
+public:
 	void HideDialog();
 	void ShowDialog();
 	
