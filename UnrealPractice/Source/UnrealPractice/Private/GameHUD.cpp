@@ -2,6 +2,10 @@
 
 
 #include "GameHUD.h"
+#include "Components/VerticalBox.h"
+#include "Components/VerticalBoxSlot.h"
+
+#include "Components/SizeBox.h"
 
 void AGameHUD::BeginPlay()
 {
@@ -10,7 +14,10 @@ void AGameHUD::BeginPlay()
 
 	DialogInstance = CreateWidget<UDialogueWidget>(GetWorld(), WidgetClass);
 
-	if (DialogInstance)
+	if (DialogInstance) {
+		DialogInstance->AddToViewport();
+	}
+	/*if (DialogInstance)
 	{
 		DialogInstance->AddToViewport();
 		UE_LOG(LogTemp, Log, TEXT("Dialog widget has been created"));
@@ -29,7 +36,18 @@ void AGameHUD::BeginPlay()
 
 				if (DialogOptionInstance)
 				{
-					OptionsContainer->AddChild(DialogOptionInstance);
+					UVerticalBoxSlot* BoxSlot = OptionsContainer->AddChildToVerticalBox(DialogOptionInstance);
+
+					if (BoxSlot)
+					{
+						BoxSlot->SetPadding(FMargin(2.0f));
+						
+						BoxSlot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Fill);
+						BoxSlot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+
+
+						BoxSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+					}
 
 					DialogInstance->SetupDialogOptions(DialogOptionInstance);
 
@@ -37,19 +55,19 @@ void AGameHUD::BeginPlay()
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void AGameHUD::HideDialog() 
 {
 	if (!DialogInstance) return;
 
-	DialogInstance->SetVisibility(ESlateVisibility::Hidden);
+	DialogInstance->HideDialog();
 }
 
 void AGameHUD::ShowDialog() 
 {
 	if (!DialogInstance) return;
 
-	DialogInstance->SetVisibility(ESlateVisibility::Visible);
+	DialogInstance->ShowDialog();
 }

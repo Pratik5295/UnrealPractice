@@ -4,6 +4,8 @@
 #include "DialogueWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Components/VerticalBox.h"
+#include "Components/VerticalBoxSlot.h"
 
 void UDialogueWidget::SetSpeakerText(const FString& Text)
 {
@@ -31,8 +33,31 @@ void UDialogueWidget::OnNextButtonClicked()
 	UE_LOG(LogTemp, Log, TEXT("Next button was clicked! Show next message"));
 }
 
+void UDialogueWidget::HideAllOptions()
+{
+	if (OptionsContainer->GetChildrenCount() > 0)
+	{
+		for (int i = 0; i < OptionsContainer->GetChildrenCount(); i++)
+		{
+			OptionsContainer->GetChildAt(i)->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+}
+
+void UDialogueWidget::ShowOptions(int32 options)
+{
+	if (OptionsContainer->GetChildrenCount() == 0) return;
+
+	for (int i = 0; i < options; i++)
+	{
+		OptionsContainer->GetChildAt(i)->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 {
+	HideAllOptions();
+
 	CurrentNode = NewDialogueNode;
 
 	SetSpeakerText(CurrentNode.SpeakerName);
@@ -40,17 +65,11 @@ void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 
 	bool HasOptions = CurrentNode.HasOptions();
 
-	if (DialogOptionInstance)
-	{
-		DialogOptionInstance->SetupOption("Batman wishes you the best", 3);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couuld not setup the Dialog Option Instance"));
-	}
-
 	if (!HasOptions)
 	{
+		int32 noOptions = CurrentNode.OptionCount();
+
+		ShowOptions(noOptions);
 	}
 	else
 	{
@@ -82,5 +101,52 @@ void UDialogueWidget::NativeConstruct()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Struct of dialogue node is empty"));
 	}
+	
+		UE_LOG(LogTemp, Log, TEXT("Dialog widget has been created"));
+
+		
+
+		if (OptionsContainer)
+		{
+			for (int i = 0; i < OptionsCount; i++)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Options container also exists"));
+
+				DialogOptionInstance = CreateWidget<UUIDialogOption>(GetWorld(), DialogOptionWidgetClass);
+
+				if (DialogOptionInstance)
+				{
+					UVerticalBoxSlot* BoxSlot = OptionsContainer->AddChildToVerticalBox(DialogOptionInstance);
+
+					if (BoxSlot)
+					{
+						BoxSlot->SetPadding(FMargin(2.0f));
+
+						BoxSlot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Fill);
+						BoxSlot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+
+
+						BoxSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
+					}
+
+					DialogOptions.Add(DialogOptionInstance);
+				}
+			}
+		}
+
+		HideDialog();
+
+		
 }
+
+
+	void UDialogueWidget::HideDialog()
+	{
+		UDialogueWidget::SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	void UDialogueWidget::ShowDialog()
+	{
+		UDialogueWidget::SetVisibility(ESlateVisibility::Visible);
+	}
 

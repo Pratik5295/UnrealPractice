@@ -38,4 +38,11 @@ public:
 	{
 		return Options.Num() > 0;
 	}
+
+
+	//Helper function to return the number of options this message currently has
+	int32 OptionCount() const
+	{
+		return Options.Num();
+	}
 };

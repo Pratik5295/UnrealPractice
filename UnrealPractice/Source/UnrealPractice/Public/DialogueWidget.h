@@ -27,6 +27,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UVerticalBox* OptionsContainer;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
+	TSubclassOf<UUIDialogOption> DialogOptionWidgetClass;
+
 	//For now let the struct be in public, but will be moved  to private once
 	// the system is setup properly
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
@@ -35,9 +38,11 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Dialogue")
 	UUIDialogOption* DialogOptionInstance;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Dialogue")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Dialogue")
 	TArray<UUIDialogOption*> DialogOptions;
 
+
+	//Functions
 	void SetCurrentNode(const FDialogueNode& NewDialogueNode);
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
@@ -48,15 +53,25 @@ public:
 
 	void SetupDialogOptions(UUIDialogOption* DialogOption);
 
+
+	void HideDialog();
+	void ShowDialog();
+
 protected:
 
 	virtual void NativeConstruct() override;
+	const int32 OptionsCount = 3;
 
 private:
 
-
-
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void OnNextButtonClicked();
+
+
+	//Hide Options
+	void HideAllOptions();
+
+	void ShowOptions(int32 options);
+
 
 };
