@@ -87,6 +87,9 @@ void ADialogueManager::ShowDialogHUD()
 	if (hud && activeDialogue)
 	{
 		hud->ShowDialog();
+
+		//Broadcast the delegate to showcase conversation updated
+		TriggerEvent();
 	}
 }
 
@@ -105,5 +108,13 @@ void ADialogueManager::ResetDialogHUD()
 	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Dialog HUD should be hidden?"));
+
+	//Broadcast the delegate to showcase conversation updated
+	TriggerEvent();
+}
+
+void ADialogueManager::TriggerEvent()
+{
+	OnConvoUpdateEvent.Broadcast();
 }
 

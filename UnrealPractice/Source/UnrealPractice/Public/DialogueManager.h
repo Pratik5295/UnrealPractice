@@ -9,6 +9,9 @@
 #include "GameFramework/PlayerController.h"
 #include "DialogueManager.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConversationDelegate);
+
 // Forward declare the classes
 class ADialogue;
 
@@ -17,8 +20,6 @@ class UNREALPRACTICE_API ADialogueManager : public AActor
 {
 	GENERATED_BODY()
 
-	
-	
 public:	
 	// Sets default values for this actor's properties
 	ADialogueManager();
@@ -30,6 +31,10 @@ public:
 	ADialogue* activeDialogue;
 
 	FTimerHandle TimerHandle;
+
+	UPROPERTY(BlueprintAssignable,Category = "Dialogue")
+	FOnConversationDelegate OnConvoUpdateEvent;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,5 +58,8 @@ public:
 
 	UFUNCTION(BlueprintCallable,Category = "Dialogue")
 	void ResetDialogHUD();
+
+
+	void TriggerEvent();
 
 };
