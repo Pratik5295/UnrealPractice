@@ -6,6 +6,8 @@
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "UIDialogOption.h"
+
 
 void UDialogueWidget::SetSpeakerText(const FString& Text)
 {
@@ -44,13 +46,24 @@ void UDialogueWidget::HideAllOptions()
 	}
 }
 
-void UDialogueWidget::ShowOptions(int32 options)
+void UDialogueWidget::ShowOptions(const FDialogueNode& DialogueNode,int32 options)
 {
 	if (OptionsContainer->GetChildrenCount() == 0) return;
 
-	for (int i = 0; i < options; i++)
+	TArray<FDialogueOption> Options = DialogueNode.Options;
+
+	for (int i = 0; i < Options.Num(); i++)
 	{
+		FDialogueOption OptionData = Options[i];
+
 		OptionsContainer->GetChildAt(i)->SetVisibility(ESlateVisibility::Visible);
+
+		UUIDialogOption* Option = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(i));
+
+		if (Option)
+		{
+			Option->SetupOption(OptionData.OptionMessage, OptionData.NextInteger);
+		}
 	}
 }
 
@@ -65,15 +78,15 @@ void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 
 	bool HasOptions = CurrentNode.HasOptions();
 
-	if (!HasOptions)
+	if (HasOptions)
 	{
 		int32 noOptions = CurrentNode.OptionCount();
 
-		ShowOptions(noOptions);
+		ShowOptions(NewDialogueNode,noOptions);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Log, TEXT("Dialogue Options will be populated soon"));
+		UE_LOG(LogTemp, Log, TEXT("This message doesnt have any options to show"));
 	}
 }
 

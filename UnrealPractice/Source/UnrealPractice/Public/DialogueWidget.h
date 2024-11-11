@@ -71,7 +71,7 @@ private:
 	//Hide Options
 	void HideAllOptions();
 
-	void ShowOptions(int32 options);
+	void ShowOptions(const FDialogueNode& DialogueNode,int32 options);
 
 
 };
