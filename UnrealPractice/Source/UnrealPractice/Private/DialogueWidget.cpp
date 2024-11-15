@@ -83,6 +83,9 @@ void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 		int32 noOptions = CurrentNode.OptionCount();
 
 		ShowOptions(NewDialogueNode,noOptions);
+
+		UUIDialogOption* FirstOption = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(0));
+		FirstOption->Highlighted();
 	}
 	else
 	{

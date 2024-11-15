@@ -32,3 +32,19 @@ void UUIDialogOption::Hide()
 		*GetFName().ToString(),static_cast<int32>(GetVisibility()));
 }
 
+/// <summary>
+/// The UI option will be highlighted in different color?
+/// </summary>
+void UUIDialogOption::Highlighted()
+{
+	OptionMessage->SetColorAndOpacity(FSlateColor(FLinearColor::Yellow));
+}
+
+/// <summary>
+/// UI Option will be unhighlighted if it was highlighted
+/// </summary>
+void UUIDialogOption::UnHighlighted()
+{
+	OptionMessage->SetColorAndOpacity(FSlateColor(FLinearColor::Black));
+}
+

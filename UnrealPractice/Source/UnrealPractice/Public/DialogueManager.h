@@ -10,7 +10,7 @@
 #include "DialogueManager.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConversationDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConversationDelegate,bool,IsActive);
 
 // Forward declare the classes
 class ADialogue;
@@ -44,6 +44,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
 	void GetCurrentHUD();
 
 	void PassDialogueData(const FDialogueNode& DialogueNode);
@@ -60,6 +61,6 @@ public:
 	void ResetDialogHUD();
 
 
-	void TriggerEvent();
+	void TriggerEvent(bool isActive);
 
 };

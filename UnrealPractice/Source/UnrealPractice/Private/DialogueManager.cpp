@@ -89,7 +89,7 @@ void ADialogueManager::ShowDialogHUD()
 		hud->ShowDialog();
 
 		//Broadcast the delegate to showcase conversation updated
-		TriggerEvent();
+		TriggerEvent(true);
 	}
 }
 
@@ -110,11 +110,11 @@ void ADialogueManager::ResetDialogHUD()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Dialog HUD should be hidden?"));
 
 	//Broadcast the delegate to showcase conversation updated
-	TriggerEvent();
+	TriggerEvent(false);
 }
 
-void ADialogueManager::TriggerEvent()
+void ADialogueManager::TriggerEvent(bool isActive)
 {
-	OnConvoUpdateEvent.Broadcast();
+	OnConvoUpdateEvent.Broadcast(isActive);
 }
 

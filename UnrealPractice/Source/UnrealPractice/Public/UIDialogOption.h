@@ -27,6 +27,10 @@ public:
 	UFUNCTION(BlueprintCallable,Category = "Visibility")
 	void Hide();
 
+	void Highlighted();
+
+	void UnHighlighted();
+
 protected:
 
 	virtual void NativeConstruct() override;
