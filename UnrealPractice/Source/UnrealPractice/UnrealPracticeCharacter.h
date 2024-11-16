@@ -38,7 +38,9 @@ class AUnrealPracticeCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
 
-	ADialogueManager* DialogueManager;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = Input, meta =(AllowPrivateAccess = "true"))
+	UInputAction* InteractAction;
+
 	
 public:
 	AUnrealPracticeCharacter();
@@ -59,6 +61,9 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	//Called when interact key pressed
+	void Interaction(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -70,5 +75,13 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+private:
+
+	//Dialogue Related Functions
+
+	ADialogueManager* DialogueManager;
+	bool isDialogueActive = false;
+
+	void OnDialogueToggled(bool isActive);
 };
 

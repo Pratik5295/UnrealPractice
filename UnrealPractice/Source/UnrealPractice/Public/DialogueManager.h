@@ -10,7 +10,7 @@
 #include "DialogueManager.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConversationDelegate,bool,IsActive);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnConversationDelegate,bool);
 
 // Forward declare the classes
 class ADialogue;
@@ -32,7 +32,6 @@ public:
 
 	FTimerHandle TimerHandle;
 
-	UPROPERTY(BlueprintAssignable,Category = "Dialogue")
 	FOnConversationDelegate OnConvoUpdateEvent;
 
 

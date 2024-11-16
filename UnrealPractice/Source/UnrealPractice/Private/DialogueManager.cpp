@@ -115,6 +115,6 @@ void ADialogueManager::ResetDialogHUD()
 
 void ADialogueManager::TriggerEvent(bool isActive)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Trigger event firing!!"));
 	OnConvoUpdateEvent.Broadcast(isActive);
 }
-

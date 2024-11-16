@@ -53,6 +53,8 @@ void AUnrealPracticeCharacter::BeginPlay()
 	if (DialogueManager)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Dialogue Manager exists through code!!"));
+
+		DialogueManager->OnConvoUpdateEvent.AddUObject(this, &AUnrealPracticeCharacter::OnDialogueToggled);
 	}
 }
 
@@ -72,11 +74,29 @@ void AUnrealPracticeCharacter::SetupPlayerInputComponent(UInputComponent* Player
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUnrealPracticeCharacter::Look);
+
+		//Interaction
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AUnrealPracticeCharacter::Interaction);
 	}
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void AUnrealPracticeCharacter::OnDialogueToggled(bool isActive)
+{
+	if (isActive)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, TEXT("Dialogue Widget is now open"));
+	}
+	else 
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Dialogue Widget now closed"));
+	}
+
+	//Sets the dialogue open value
+	isDialogueActive = isActive;
 }
 
 
@@ -87,9 +107,12 @@ void AUnrealPracticeCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		// add movement 
-		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
-		AddMovementInput(GetActorRightVector(), MovementVector.X);
+		if (!isDialogueActive)
+		{
+			// add movement 
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+			AddMovementInput(GetActorRightVector(), MovementVector.X);
+		}
 	}
 }
 
@@ -97,11 +120,21 @@ void AUnrealPracticeCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
 	if (Controller != nullptr)
 	{
-		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput(LookAxisVector.Y);
+		if (!isDialogueActive) 
+		{
+			// add yaw and pitch input to controller
+			AddControllerYawInput(LookAxisVector.X);
+			AddControllerPitchInput(LookAxisVector.Y);
+		}
+	}
+}
+
+void AUnrealPracticeCharacter::Interaction(const FInputActionValue& Value)
+{
+	if (DialogueManager)
+	{
+		DialogueManager->ShowNextMessage();
 	}
 }
