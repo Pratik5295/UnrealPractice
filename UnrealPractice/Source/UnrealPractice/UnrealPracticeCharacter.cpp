@@ -77,6 +77,9 @@ void AUnrealPracticeCharacter::SetupPlayerInputComponent(UInputComponent* Player
 
 		//Interaction
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AUnrealPracticeCharacter::Interaction);
+	
+		//Dialogue Move Handling
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Started, this, &AUnrealPracticeCharacter::HandleMove);
 	}
 	else
 	{
@@ -136,5 +139,20 @@ void AUnrealPracticeCharacter::Interaction(const FInputActionValue& Value)
 	if (DialogueManager)
 	{
 		DialogueManager->ShowNextMessage();
+	}
+}
+
+void AUnrealPracticeCharacter::HandleMove(const FInputActionValue& Value)
+{
+	if (!DialogueManager) return;
+
+	if (!isDialogueActive) return;
+
+	FVector2D MoveVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+
+		DialogueManager->HandlePlayerInput(MoveVector.Y);
 	}
 }

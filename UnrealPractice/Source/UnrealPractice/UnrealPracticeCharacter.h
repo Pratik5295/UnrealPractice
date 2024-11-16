@@ -64,6 +64,9 @@ protected:
 	//Called when interact key pressed
 	void Interaction(const FInputActionValue& Value);
 
+	//Called to handle dialogue Input handling
+	void HandleMove(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

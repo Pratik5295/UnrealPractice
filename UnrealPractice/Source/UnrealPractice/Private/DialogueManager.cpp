@@ -118,3 +118,16 @@ void ADialogueManager::TriggerEvent(bool isActive)
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Trigger event firing!!"));
 	OnConvoUpdateEvent.Broadcast(isActive);
 }
+
+
+void ADialogueManager::HandlePlayerInput(double moveY)
+{
+	if (moveY > 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Select Next Option"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Select Previous Option"));
+	}
+}

@@ -60,6 +60,9 @@ public:
 	void ResetDialogHUD();
 
 
+	void HandlePlayerInput(double moveY);
+
+
 	void TriggerEvent(bool isActive);
 
 };

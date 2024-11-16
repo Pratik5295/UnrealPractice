@@ -57,12 +57,19 @@ public:
 	void HideDialog();
 	void ShowDialog();
 
+	//Showcase different options
+	void SelectNextOption();
+	void SelectPreviousOption();
+
 protected:
 
 	virtual void NativeConstruct() override;
 	const int32 OptionsCount = 3;
 
 private:
+
+
+	int32 highlightedOption = 0;
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void OnNextButtonClicked();
@@ -72,6 +79,10 @@ private:
 	void HideAllOptions();
 
 	void ShowOptions(const FDialogueNode& DialogueNode,int32 options);
+
+	void HighlightOption();
+
+	void UnHighlightCurrent();
 
 
 };
