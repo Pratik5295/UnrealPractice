@@ -69,15 +69,34 @@ void ADialogue::DisplayCurrentMessage()
 		DialogueManagerInstance->PassDialogueData(Node);
 
 	}
-	else
+}
+
+void ADialogue::SelectMessageOption(int32 Selected)
+{
+	if (DialogueMessages.IsValidIndex(currentIndex) && DialogueManagerInstance)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Last message was shown!"));
+		const FDialogueNode& Node = DialogueMessages[currentIndex];
+
+		int32 nextMessageIndex = Node.GetNextIndexFromOption(Selected);
+
+		currentIndex = nextMessageIndex;
+
+		DisplayCurrentMessage();
 	}
 }
+
+#pragma endregion
 
 bool ADialogue::IsLastMessageShown()
 {
 	return currentIndex >= lastIndex;
+}
+
+bool ADialogue::DoesCurrentMessageHaveOptions()
+{
+	const FDialogueNode& Node = DialogueMessages[currentIndex];
+
+	return Node.HasOptions();
 }
 
 void ADialogue::SetupDialogueMessages(TArray<FDialogueNode> Messages)
@@ -87,7 +106,7 @@ void ADialogue::SetupDialogueMessages(TArray<FDialogueNode> Messages)
 	lastIndex = DialogueMessages.Num() - 1;
 }
 
-#pragma endregion
+
 
 void ADialogue::FindDialogueManager()
 {
@@ -101,10 +120,6 @@ void ADialogue::FindDialogueManager()
 	else 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DialogueManager found!"));
-
-		//Temporarily starting the dialogue as soon as its found,
-		//This will later be covered through another trigger element like NPC or box trigger
-		//StartDialogue();
 	}
 }
 

@@ -61,6 +61,7 @@ public:
 
 
 	void HandlePlayerInput(double moveY);
+	void HandlePlayerInteractionInput();
 
 
 	void TriggerEvent(bool isActive);

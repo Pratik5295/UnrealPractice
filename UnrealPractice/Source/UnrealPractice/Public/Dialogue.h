@@ -45,9 +45,13 @@ public:
 
 	void ShowNextMessage();
 
+	void SelectMessageOption(int32 Selection);
+
 	void StartDialogue();
 
 	bool IsLastMessageShown();
+
+	bool DoesCurrentMessageHaveOptions();
 
 	void SetupDialogueMessages(TArray<FDialogueNode> Messages);
 

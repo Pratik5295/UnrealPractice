@@ -124,10 +124,29 @@ void ADialogueManager::HandlePlayerInput(double moveY)
 {
 	if (moveY > 0)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Select Next Option"));
+		hud->DialogueNextOption();
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Select Previous Option"));
+		hud->DialoguePreviousOption();
+	}
+}
+
+void ADialogueManager::HandlePlayerInteractionInput()
+{
+	if (activeDialogue)
+	{
+		if (activeDialogue->DoesCurrentMessageHaveOptions())
+		{
+			//Select the current highlighted option
+			int32 selectedOption = hud->GetSelectedDialogOption();
+
+			activeDialogue->SelectMessageOption(selectedOption);
+		}
+		else
+		{
+			//Show next message as there is no user input selection
+			ShowNextMessage();
+		}
 	}
 }

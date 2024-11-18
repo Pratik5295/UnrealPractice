@@ -138,7 +138,7 @@ void AUnrealPracticeCharacter::Interaction(const FInputActionValue& Value)
 {
 	if (DialogueManager)
 	{
-		DialogueManager->ShowNextMessage();
+		DialogueManager->HandlePlayerInteractionInput();
 	}
 }
 
@@ -152,7 +152,6 @@ void AUnrealPracticeCharacter::HandleMove(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-
 		DialogueManager->HandlePlayerInput(MoveVector.Y);
 	}
 }

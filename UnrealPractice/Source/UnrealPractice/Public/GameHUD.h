@@ -32,4 +32,7 @@ public:
 	void HideDialog();
 	void ShowDialog();
 	
+	int32 GetSelectedDialogOption();
+	void DialogueNextOption();
+	void DialoguePreviousOption();
 };

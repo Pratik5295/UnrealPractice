@@ -33,3 +33,24 @@ void AGameHUD::ShowDialog()
 
 	DialogInstance->ShowDialog();
 }
+
+void AGameHUD::DialogueNextOption()
+{
+	if (!DialogInstance) return;
+
+	DialogInstance->SelectNextOption();
+}
+
+void AGameHUD::DialoguePreviousOption()
+{
+	if (!DialogInstance) return;
+
+	DialogInstance->SelectPreviousOption();
+}
+
+int32 AGameHUD::GetSelectedDialogOption()
+{
+	if (!DialogInstance) return 300;
+
+	return DialogInstance->GetSelectedOption();
+}

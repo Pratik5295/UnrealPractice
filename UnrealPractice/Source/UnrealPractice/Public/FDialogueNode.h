@@ -7,7 +7,6 @@
 #include "FDialogueNode.generated.h"
 
 
-
 USTRUCT(BlueprintType)
 struct UNREALPRACTICE_API FDialogueNode
 {
@@ -20,6 +19,7 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	FString Message;
+
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	TArray<FDialogueOption> Options;
@@ -44,5 +44,21 @@ public:
 	int32 OptionCount() const
 	{
 		return Options.Num();
+	}
+
+	/// <summary>
+	/// Helper function to return the next jump option of the message if any
+	/// </summary>
+	/// <param name="Value"></param>
+	/// <returns></returns>
+	int32 GetNextIndexFromOption(int32 Value) const
+	{
+		if (Options.IsValidIndex(Value))
+		{
+			return Options[Value].NextInteger;
+		}
+
+		//300 would be the error code
+		return 300;
 	}
 };

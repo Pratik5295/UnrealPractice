@@ -79,13 +79,13 @@ void UDialogueWidget::SetCurrentNode(const FDialogueNode& NewDialogueNode)
 
 	bool HasOptions = CurrentNode.HasOptions();
 
+	CurrentOptionCount = CurrentNode.OptionCount();
+
 	if (HasOptions)
 	{
-		int32 noOptions = CurrentNode.OptionCount();
-
-		ShowOptions(NewDialogueNode,noOptions);
+		ShowOptions(NewDialogueNode, CurrentOptionCount);
 		
-		UUIDialogOption* FirstOption = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(highlightedOption));
+		UUIDialogOption* FirstOption = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(SelectedOption));
 		FirstOption->Highlighted();
 	}
 	else
@@ -171,13 +171,13 @@ void UDialogueWidget::NativeConstruct()
 	{
 		UnHighlightCurrent();
 
-		if (highlightedOption + 1 >= DialogOptions.Num()) 
+		if (SelectedOption + 1 >= CurrentOptionCount)
 		{
-			highlightedOption = 0;
+			SelectedOption = 0;
 		}
 		else 
 		{
-			highlightedOption++;
+			SelectedOption++;
 		}
 		
 		HighlightOption();
@@ -187,13 +187,13 @@ void UDialogueWidget::NativeConstruct()
 	{
 		UnHighlightCurrent();
 
-		if (highlightedOption == 0)
+		if (SelectedOption == 0)
 		{
-			highlightedOption = DialogOptions.Num();
+			SelectedOption = CurrentOptionCount - 1;
 		}
 		else 
 		{
-			highlightedOption--;
+			SelectedOption--;
 		}
 
 		HighlightOption();
@@ -202,14 +202,20 @@ void UDialogueWidget::NativeConstruct()
 
 	void UDialogueWidget::HighlightOption()
 	{
-		UUIDialogOption* Option = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(highlightedOption));
+		UUIDialogOption* Option = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(SelectedOption));
 		Option->Highlighted();
 	}
 
 	void UDialogueWidget::UnHighlightCurrent()
 	{
-		UUIDialogOption* Option = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(highlightedOption));
+		UUIDialogOption* Option = Cast<UUIDialogOption>(OptionsContainer->GetChildAt(SelectedOption));
 		Option->UnHighlighted();
+
+	}
+
+	int32 UDialogueWidget::GetSelectedOption() 
+	{
+		return SelectedOption;
 	}
 
 	

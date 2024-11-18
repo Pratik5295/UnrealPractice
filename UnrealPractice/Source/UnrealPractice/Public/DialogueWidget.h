@@ -53,7 +53,7 @@ public:
 
 	void SetupDialogOptions(UUIDialogOption* DialogOption);
 
-
+	int32 GetSelectedOption();
 	void HideDialog();
 	void ShowDialog();
 
@@ -68,8 +68,8 @@ protected:
 
 private:
 
-
-	int32 highlightedOption = 0;
+	int32 CurrentOptionCount = 0;
+	int32 SelectedOption = 0;
 
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	void OnNextButtonClicked();
