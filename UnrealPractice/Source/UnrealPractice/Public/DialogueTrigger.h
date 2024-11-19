@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "FDialogueNode.h"
+#include "DialogueFileReader.h"
 #include "Components/BoxComponent.h"
 #include "DialogueTrigger.generated.h"
 
@@ -27,6 +28,9 @@ protected:
 	UPROPERTY(VisibleAnywhere,Category = "Dialogue")
 	UBoxComponent* TriggerBox;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
+	FString DialogueFilePath;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue")
 	TArray<FDialogueNode> DialogueMessages;
 
@@ -46,5 +50,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	DialogueFileReader* FileReader;
 
 };

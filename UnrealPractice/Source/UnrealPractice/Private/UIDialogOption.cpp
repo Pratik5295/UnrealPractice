@@ -7,11 +7,6 @@
 void UUIDialogOption::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	if (Button)
-	{
-		Button->OnClicked.AddDynamic(this, &UUIDialogOption::OnDialogueSelectedHandler);
-	}
 }
 
 void UUIDialogOption::OnDialogueSelectedHandler()

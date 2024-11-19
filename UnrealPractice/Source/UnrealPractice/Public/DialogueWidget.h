@@ -8,6 +8,7 @@
 #include "Blueprint/UserWidget.h"
 #include "DialogueWidget.generated.h"
 
+
 UCLASS()
 class UNREALPRACTICE_API UDialogueWidget : public UUserWidget
 {

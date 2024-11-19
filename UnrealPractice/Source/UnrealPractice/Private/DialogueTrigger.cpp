@@ -12,12 +12,44 @@ ADialogueTrigger::ADialogueTrigger()
 
 	activeDialogue = nullptr;
 
+	FileReader = new DialogueFileReader();
+
 }
 
 // Called when the game starts or when spawned
 void ADialogueTrigger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (FileReader)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reader found"));
+	}
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reader not found"));
+	}
+
+	FString FullFilePath = FPaths::ProjectContentDir() / DialogueFilePath + TEXT(".txt");
+
+	UE_LOG(LogTemp, Log, TEXT("Path: %s"), *FullFilePath);
+
+	if (!DialogueFilePath.IsEmpty())
+	{
+		FString Content = FileReader->LoadDialogueFromFile(DialogueFilePath);
+
+		if (Content.IsEmpty())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Content is empty man"));
+		}
+		else {
+			UE_LOG(LogTemp, Log, TEXT("%s"), *Content);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Dialogue File not found"));
+	}
 
 	FName DialogTag = TEXT("Dialogue");
 

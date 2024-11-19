@@ -7,6 +7,14 @@
 #include "FDialogueNode.generated.h"
 
 
+UENUM(BlueprintType)
+enum class EMessageType : uint8
+{
+	NORMAL UMETA(DisplayName = "Normal"),
+	ENDER UMETA(DisplayName = "Ender")
+};
+
+
 USTRUCT(BlueprintType)
 struct UNREALPRACTICE_API FDialogueNode
 {
@@ -16,6 +24,10 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	FString SpeakerName;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
+	EMessageType MessageType;
+
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	FString Message;
