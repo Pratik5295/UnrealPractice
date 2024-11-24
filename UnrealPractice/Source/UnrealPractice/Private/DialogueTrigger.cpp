@@ -21,35 +21,7 @@ void ADialogueTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (FileReader)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Reader found"));
-	}
-	else 
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Reader not found"));
-	}
-
-	FString FullFilePath = FPaths::ProjectContentDir() / DialogueFilePath + TEXT(".txt");
-
-	UE_LOG(LogTemp, Log, TEXT("Path: %s"), *FullFilePath);
-
-	if (!DialogueFilePath.IsEmpty())
-	{
-		FString Content = FileReader->LoadDialogueFromFile(DialogueFilePath);
-
-		if (Content.IsEmpty())
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Content is empty man"));
-		}
-		else {
-			UE_LOG(LogTemp, Log, TEXT("%s"), *Content);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Dialogue File not found"));
-	}
+	ReadDialogueFile();
 
 	FName DialogTag = TEXT("Dialogue");
 
@@ -108,5 +80,43 @@ void ADialogueTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+
+void ADialogueTrigger::ReadDialogueFile() 
+{
+	if (FileReader)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reader found"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reader not found"));
+	}
+
+	FString FullFilePath = FPaths::ProjectContentDir() / DialogueFilePath + TEXT(".csv");
+
+	UE_LOG(LogTemp, Log, TEXT("Path: %s"), *FullFilePath);
+
+	if (!DialogueFilePath.IsEmpty())
+	{
+		TArray<FString> Content = FileReader->LoadDialogueFromFile(DialogueFilePath);
+
+		if (Content.IsEmpty())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Content is empty man"));
+		}
+		else 
+		{
+			for (int i = 0; i < Content.Num(); i++)
+			{
+				UE_LOG(LogTemp, Log, TEXT("%s"), *Content[i]);
+			}
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Dialogue File not found"));
+	}
 }
 

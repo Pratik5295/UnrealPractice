@@ -10,5 +10,5 @@ public:
 	DialogueFileReader();
 	~DialogueFileReader();
 
-	FString LoadDialogueFromFile(const FString& FilePath);
+	TArray<FString> LoadDialogueFromFile(const FString& FilePath);
 };

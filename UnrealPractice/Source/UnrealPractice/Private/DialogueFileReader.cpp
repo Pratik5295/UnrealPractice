@@ -11,13 +11,13 @@ DialogueFileReader::~DialogueFileReader()
 {
 }
 
-FString DialogueFileReader::LoadDialogueFromFile(const FString& FilePath)
+TArray<FString> DialogueFileReader::LoadDialogueFromFile(const FString& FilePath)
 {
-	FString FileContent; 
+	TArray<FString> CsvLines;
 
-	FString FullFilePath = FPaths::ProjectContentDir() / FilePath + TEXT(".txt");
+	FString FullFilePath = FPaths::ProjectContentDir() / FilePath + TEXT(".csv");
 
-	FFileHelper::LoadFileToString(FileContent, *FullFilePath);
+	FFileHelper::LoadFileToStringArray(CsvLines, *FullFilePath);
 
-	return FileContent;
+	return CsvLines;
 }
