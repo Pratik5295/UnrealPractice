@@ -39,6 +39,8 @@ public:
 	FDialogueNode();
 	~FDialogueNode();
 
+	FDialogueNode(FString _SpeakerName,FString _Message);
+
 	//A helper const function to check  if the struct has meaningful values
 	bool IsEmpty() const
 	{

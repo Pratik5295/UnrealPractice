@@ -21,7 +21,7 @@ void ADialogueTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ReadDialogueFile();
+	
 
 	FName DialogTag = TEXT("Dialogue");
 
@@ -34,16 +34,8 @@ void ADialogueTrigger::BeginPlay()
 
 		if (activeDialogue)
 		{
-			if (DialogueMessages.Num() > 0) 
-			{
-				//If nothing is added in parent, then let it show the template dialogue messages
-				activeDialogue->SetupDialogueMessages(DialogueMessages);
-			}
-			UE_LOG(LogTemp, Warning, TEXT("Child found & attached"));
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Child is not a dialogue"));
+			//Add new dialogues by reading file
+			ReadDialogueFile();
 		}
 	}
 	else
@@ -85,6 +77,8 @@ void ADialogueTrigger::Tick(float DeltaTime)
 
 void ADialogueTrigger::ReadDialogueFile() 
 {
+	//Clear any messages before setup
+	activeDialogue->ClearMessages();
 	if (FileReader)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Reader found"));
@@ -108,10 +102,18 @@ void ADialogueTrigger::ReadDialogueFile()
 		}
 		else 
 		{
-			for (int i = 0; i < Content.Num(); i++)
+			for (int i = 1; i < Content.Num(); i++)
 			{
 				UE_LOG(LogTemp, Log, TEXT("%s"), *Content[i]);
+
+				//The trigger has a dialogue associated with it
+				activeDialogue->AddNewDialogue(*Content[i]);
 			}
+
+			//All messages added, check up
+			activeDialogue->PrintAllMessages();
+
+			activeDialogue->InitializeDialogueMessages();
 		}
 	}
 	else

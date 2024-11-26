@@ -37,6 +37,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dialogue")
 	ADialogue* activeDialogue;
 
+	
+
 	// Overlap functions
 	UFUNCTION(BlueprintCallable)
 	void OnTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

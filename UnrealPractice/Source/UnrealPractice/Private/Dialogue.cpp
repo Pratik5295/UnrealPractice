@@ -51,6 +51,11 @@ void ADialogue::StartDialogue()
 	DisplayCurrentMessage();
 }
 
+void ADialogue::ClearMessages() 
+{
+	DialogueMessages.Empty();
+}
+
 #pragma region SHOW MESSAGE
 void ADialogue::ShowNextMessage()
 {
@@ -102,8 +107,31 @@ bool ADialogue::DoesCurrentMessageHaveOptions()
 void ADialogue::SetupDialogueMessages(TArray<FDialogueNode> Messages)
 {
 	DialogueMessages = Messages;
+	InitializeDialogueMessages();
+}
+
+void ADialogue::InitializeDialogueMessages()
+{
 	currentIndex = 0;
 	lastIndex = DialogueMessages.Num() - 1;
+
+	UE_LOG(LogTemp, Warning, TEXT("Messages found, Setup Complete"));
+}
+
+void ADialogue::PrintAllMessages() 
+{
+	if (DialogueMessages.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("There are no messages here"));
+	}
+	else
+	{
+		for (int32 i = 0; i < DialogueMessages.Num(); i++)
+		{
+			FString Message = FString::Printf(TEXT("%s,%s"), *DialogueMessages[i].SpeakerName, *DialogueMessages[i].Message);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), * Message);
+		}
+	}
 }
 
 
@@ -121,5 +149,56 @@ void ADialogue::FindDialogueManager()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DialogueManager found!"));
 	}
+}
+
+
+void ADialogue::AddNewDialogue(const FString& Line)
+{
+	CreateDialogueMessage(Line);
+}
+
+
+void ADialogue::CreateDialogueMessage(const FString& Line)
+{
+	TArray<FString> Columns = ParseCsvLine(Line);
+
+	FDialogueNode DialogueNode;
+	DialogueNode.SpeakerName = Columns[1];
+	DialogueNode.Message = Columns[2];
+
+	UE_LOG(LogTemp, Warning, TEXT("Dialogue Line Added!"));
+
+	DialogueMessages.Add(DialogueNode);
+}
+
+TArray<FString> ADialogue::ParseCsvLine(const FString& Line)
+{
+	TArray<FString> Result;
+
+	bool InQuotes = false;
+	FString Value;
+
+	for (int32 i = 0; i < Line.Len(); i++)
+	{
+		TCHAR Char = Line[i];
+
+		if (Char == TEXT('"'))
+		{
+			InQuotes = !InQuotes;
+			continue;
+		}
+
+		if (Char == TEXT(',') && !InQuotes)
+		{
+			Result.Add(Value);
+			Value.Empty();
+			continue;
+		}
+
+		Value.AppendChar(Char);
+	}
+
+	Result.Add(Value);
+	return Result;
 }
 

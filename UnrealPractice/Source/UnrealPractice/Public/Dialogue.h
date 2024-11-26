@@ -39,9 +39,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void CreateDialogueMessage(const FString& Line);
+
+	TArray<FString> ParseCsvLine(const FString& Line);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ClearMessages();
 
 	void ShowNextMessage();
 
@@ -54,6 +60,12 @@ public:
 	bool DoesCurrentMessageHaveOptions();
 
 	void SetupDialogueMessages(TArray<FDialogueNode> Messages);
+
+	void AddNewDialogue(const FString& Line);
+
+	void PrintAllMessages();
+
+	void InitializeDialogueMessages();
 
 
 private:
