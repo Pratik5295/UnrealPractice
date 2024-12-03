@@ -32,6 +32,10 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	FString Message;
 
+	int32 NextJump = 0;
+
+	bool HasJump = false;
+
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
 	TArray<FDialogueOption> Options;
@@ -74,5 +78,10 @@ public:
 
 		//300 would be the error code
 		return 300;
+	}
+
+	void AddOption(FDialogueOption _option)
+	{
+		Options.Add(_option);
 	}
 };

@@ -53,13 +53,27 @@ void ADialogue::StartDialogue()
 
 void ADialogue::ClearMessages() 
 {
+	if (DialogueMessages.Num() == 0) return;
+
 	DialogueMessages.Empty();
 }
 
 #pragma region SHOW MESSAGE
 void ADialogue::ShowNextMessage()
 {
-	currentIndex++;
+	const FDialogueNode& Node = DialogueMessages[currentIndex];
+
+	if (Node.HasJump)
+	{
+		if (Node.NextJump != 99)
+		{
+			currentIndex = Node.NextJump;
+		}
+	}
+	else 
+	{
+		currentIndex++;
+	}
 
 	DisplayCurrentMessage();
 }
@@ -94,11 +108,25 @@ void ADialogue::SelectMessageOption(int32 Selected)
 
 bool ADialogue::IsLastMessageShown()
 {
-	return currentIndex >= lastIndex;
+	const FDialogueNode& Node = DialogueMessages[currentIndex];
+
+	bool isLast = false;
+	if (Node.NextJump == 99)
+	{
+		isLast = true;
+	}
+	else
+	{
+		isLast = currentIndex >= lastIndex;
+	}
+
+	return isLast;
 }
 
 bool ADialogue::DoesCurrentMessageHaveOptions()
 {
+	if (DialogueMessages.Num() == 0) return false;
+
 	const FDialogueNode& Node = DialogueMessages[currentIndex];
 
 	return Node.HasOptions();
@@ -165,6 +193,40 @@ void ADialogue::CreateDialogueMessage(const FString& Line)
 	FDialogueNode DialogueNode;
 	DialogueNode.SpeakerName = Columns[1];
 	DialogueNode.Message = Columns[2];
+
+	FString jump = Columns[3];
+	bool allowJump = false;
+	int32 nextIndex = 0;
+
+	if (!jump.IsEmpty())
+	{
+		//No options, jump to next node
+		allowJump = true;
+		nextIndex = FCString::Atoi(*jump);
+
+		DialogueNode.HasJump = allowJump;
+		DialogueNode.NextJump = nextIndex;
+	}
+	else 
+	{
+		//Has Options
+
+		int32 counterIndex = 4;
+		if (counterIndex < Columns.Num())
+		{
+			for (; counterIndex < Columns.Num(); counterIndex += 2)
+			{
+				if (counterIndex + 1 < Columns.Num())
+				{
+					FDialogueOption Option;
+					Option.OptionMessage = Columns[counterIndex];
+					Option.NextInteger = FCString::Atoi(*Columns[counterIndex + 1]);
+
+					DialogueNode.AddOption(Option);
+				}
+			}
+		}
+	}
 
 	UE_LOG(LogTemp, Warning, TEXT("Dialogue Line Added!"));
 
