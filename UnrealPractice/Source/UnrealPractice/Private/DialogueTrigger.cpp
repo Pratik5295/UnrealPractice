@@ -53,9 +53,11 @@ void ADialogueTrigger::OnTriggerOverlapBegin(UPrimitiveComponent* OverlappedComp
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("New Conversation will be started now"));
 			//We start the dialogue
-			activeDialogue->StartDialogue();
+			activeDialogue->SetActiveDialogue();
 			UE_LOG(LogTemp, Warning, TEXT("Starting new convo"));
 		}
+
+		UpdateConvoStat(true);
 	}
 }
 
@@ -64,6 +66,8 @@ void ADialogueTrigger::OnTriggerOverlapEnd(UPrimitiveComponent* OverlappedComp, 
 	if (OtherActor && OtherActor != this)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Overlap End with %s"), *OtherActor->GetName());
+
+		UpdateConvoStat(false);
 	}
 }
 

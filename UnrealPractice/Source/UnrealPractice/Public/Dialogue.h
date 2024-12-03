@@ -53,6 +53,8 @@ public:
 
 	void SelectMessageOption(int32 Selection);
 
+	void SetActiveDialogue();
+
 	void StartDialogue();
 
 	bool IsLastMessageShown();

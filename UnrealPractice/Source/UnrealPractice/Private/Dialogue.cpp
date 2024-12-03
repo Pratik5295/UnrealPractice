@@ -41,14 +41,17 @@ void ADialogue::Tick(float DeltaTime)
 
 void ADialogue::StartDialogue()
 {
+	DisplayCurrentMessage();
+}
+
+void ADialogue::SetActiveDialogue()
+{
 	currentIndex = 0;
 
 	if (DialogueManagerInstance)
 	{
 		DialogueManagerInstance->SetActiveDialogue(this);
 	}
-
-	DisplayCurrentMessage();
 }
 
 void ADialogue::ClearMessages() 

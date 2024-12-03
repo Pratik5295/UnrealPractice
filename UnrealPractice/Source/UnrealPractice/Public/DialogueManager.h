@@ -34,6 +34,8 @@ public:
 
 	FOnConversationDelegate OnConvoUpdateEvent;
 
+	bool isActive = false;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -47,6 +49,8 @@ public:
 	void GetCurrentHUD();
 
 	void PassDialogueData(const FDialogueNode& DialogueNode);
+
+	void StartConversation();
 
 	void SetActiveDialogue(ADialogue* Dialogue);
 

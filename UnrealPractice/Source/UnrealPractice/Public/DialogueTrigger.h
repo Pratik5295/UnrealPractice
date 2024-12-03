@@ -21,6 +21,10 @@ public:
 	// Sets default values for this actor's properties
 	ADialogueTrigger();
 
+private:
+
+	bool canStartConvo = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -56,5 +60,10 @@ public:
 	void ReadDialogueFile();
 
 	DialogueFileReader* FileReader;
+
+	void UpdateConvoStat(bool _ready)
+	{
+		canStartConvo = _ready;
+	}
 
 };

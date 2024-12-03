@@ -49,11 +49,14 @@ void ADialogueManager::GetCurrentHUD()
 	}
 }
 
+void ADialogueManager::StartConversation()
+{
+	ShowDialogHUD();
+}
+
 void ADialogueManager::SetActiveDialogue(ADialogue* Dialogue)
 {
 	activeDialogue = Dialogue;
-
-	ShowDialogHUD();
 }
 
 void ADialogueManager::ShowNextMessage()
@@ -90,6 +93,8 @@ void ADialogueManager::ShowDialogHUD()
 
 		//Broadcast the delegate to showcase conversation updated
 		TriggerEvent(true);
+
+		isActive = true;
 	}
 }
 
@@ -111,12 +116,14 @@ void ADialogueManager::ResetDialogHUD()
 
 	//Broadcast the delegate to showcase conversation updated
 	TriggerEvent(false);
+
+	isActive = false;
 }
 
-void ADialogueManager::TriggerEvent(bool isActive)
+void ADialogueManager::TriggerEvent(bool _isShowing)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("Trigger event firing!!"));
-	OnConvoUpdateEvent.Broadcast(isActive);
+	OnConvoUpdateEvent.Broadcast(_isShowing);
 }
 
 
@@ -136,17 +143,25 @@ void ADialogueManager::HandlePlayerInteractionInput()
 {
 	if (activeDialogue)
 	{
-		if (activeDialogue->DoesCurrentMessageHaveOptions())
+		if (isActive)
 		{
-			//Select the current highlighted option
-			int32 selectedOption = hud->GetSelectedDialogOption();
+			if (activeDialogue->DoesCurrentMessageHaveOptions())
+			{
+				//Select the current highlighted option
+				int32 selectedOption = hud->GetSelectedDialogOption();
 
-			activeDialogue->SelectMessageOption(selectedOption);
+				activeDialogue->SelectMessageOption(selectedOption);
+			}
+			else
+			{
+				//Show next message as there is no user input selection
+				ShowNextMessage();
+			}
 		}
-		else
+		else 
 		{
-			//Show next message as there is no user input selection
-			ShowNextMessage();
+			ShowDialogHUD();
+			activeDialogue->StartDialogue();
 		}
 	}
 }
