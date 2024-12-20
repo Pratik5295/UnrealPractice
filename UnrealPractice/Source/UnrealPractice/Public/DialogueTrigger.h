@@ -6,8 +6,10 @@
 #include "GameFramework/Actor.h"
 #include "FDialogueNode.h"
 #include "DialogueFileReader.h"
+#include <Components/TextRenderComponent.h>
 #include "Components/BoxComponent.h"
 #include "DialogueTrigger.generated.h"
+
 
 
 class ADialogue;
@@ -41,6 +43,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dialogue")
 	ADialogue* activeDialogue;
 
+	//UI elements
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Dialogue")
+	UTextRenderComponent* InteractionUI;
 	
 
 	// Overlap functions
@@ -64,6 +69,11 @@ public:
 	void UpdateConvoStat(bool _ready)
 	{
 		canStartConvo = _ready;
+
+		if (InteractionUI)
+		{
+			InteractionUI->SetVisibility(_ready);
+		}
 	}
 
 };

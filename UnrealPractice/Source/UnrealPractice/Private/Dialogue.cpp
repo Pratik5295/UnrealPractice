@@ -54,6 +54,17 @@ void ADialogue::SetActiveDialogue()
 	}
 }
 
+/// <summary>
+/// This function only resets the active dialogue on the dialogue manager
+/// </summary>
+void ADialogue::ResetActiveDialogue() 
+{
+	if (DialogueManagerInstance)
+	{
+		DialogueManagerInstance->SetActiveDialogue(nullptr);
+	}
+}
+
 void ADialogue::ClearMessages() 
 {
 	if (DialogueMessages.Num() == 0) return;

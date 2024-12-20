@@ -54,6 +54,7 @@ public:
 	void SelectMessageOption(int32 Selection);
 
 	void SetActiveDialogue();
+	void ResetActiveDialogue();
 
 	void StartDialogue();
 

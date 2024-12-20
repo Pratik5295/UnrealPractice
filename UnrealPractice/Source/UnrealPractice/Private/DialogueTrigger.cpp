@@ -21,7 +21,19 @@ void ADialogueTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	InteractionUI = FindComponentByClass<UTextRenderComponent>();
+
+	if (InteractionUI)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Interaction UI Text found"));
+
+		InteractionUI->SetVisibility(false);
+	}
+	else 
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Interaction UI not found"));
+	}
+
 
 	FName DialogTag = TEXT("Dialogue");
 
@@ -65,8 +77,10 @@ void ADialogueTrigger::OnTriggerOverlapEnd(UPrimitiveComponent* OverlappedComp, 
 {
 	if (OtherActor && OtherActor != this)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Convo set to inactive"));
 		UE_LOG(LogTemp, Warning, TEXT("Overlap End with %s"), *OtherActor->GetName());
 
+		activeDialogue->ResetActiveDialogue();
 		UpdateConvoStat(false);
 	}
 }
